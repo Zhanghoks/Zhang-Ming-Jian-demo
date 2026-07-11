@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.vercel/
+.vercel-config/
+.vercel-home/
+.omc/
+.remember/
+*.log
+.DS_Store
