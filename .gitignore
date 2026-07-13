@@ -7,3 +7,5 @@ dist/
 .remember/
 *.log
 .DS_Store
+.vercel
+.env*

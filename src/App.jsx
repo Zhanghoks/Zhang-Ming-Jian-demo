@@ -79,15 +79,6 @@ const RESULTS = [
   },
 ]
 
-const CITATION = `@inproceedings{zhang2026squrvebridge,
-  title     = {SqurveBridge: A Harness-Centered Platform for Cross-Domain
-               Text-to-SQL Evaluation and Metric-Guided Loop Engineering},
-  author    = {Mingjian Zhang and Zihan Chen and Zhe Li and Peiyu Liu},
-  booktitle = {Proceedings of the 2026 Conference on Empirical Methods
-               in Natural Language Processing: System Demonstrations},
-  year      = {2026}
-}`
-
 export default function App() {
   return (
     <>
@@ -220,13 +211,6 @@ export default function App() {
             Non-origin runs demonstrate execution coverage, not superiority. Loop
             cases are analyzed independently because their target benchmarks differ.
           </p>
-        </section>
-
-        <section>
-          <h2>Citation</h2>
-          <div className="citation">
-            <pre>{CITATION}</pre>
-          </div>
         </section>
       </main>
 

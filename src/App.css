@@ -372,20 +372,6 @@ video {
   font-size: 14px;
 }
 
-.citation {
-  background: var(--white);
-  border: 1px solid var(--line);
-  padding: 22px;
-  overflow-x: auto;
-}
-
-pre {
-  margin: 0;
-  color: #25354c;
-  font: 14px/1.65 'SFMono-Regular', Consolas, monospace;
-  white-space: pre-wrap;
-}
-
 footer {
   padding: 34px 24px 46px;
   text-align: center;
