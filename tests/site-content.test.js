@@ -9,17 +9,22 @@ const forbiddenPublicMarkers = [
   'conference',
   'submission',
   ['system', 'demonstrations'].join(' '),
-  'Mingjian Zhang',
-  'Zihan Chen',
-  'Zhe Li',
-  'Peiyu Liu',
-  'University of International Business and Economics',
 ]
 const forbiddenPublicPattern = new RegExp(forbiddenPublicMarkers.join('|'), 'i')
 
 test('publishes the approved paper website identity and links', () => {
   assert.equal(SITE.packageName, 'squrvebridge-paper-website')
   assert.equal(SITE.browserTitle, 'SqurveBridge · Paper Website')
+  assert.deepEqual(SITE.authors, [
+    'Mingjian Zhang',
+    'Zihan Chen',
+    'Zhe Li',
+    'Peiyu Liu',
+  ])
+  assert.equal(
+    SITE.affiliation,
+    'University of International Business and Economics',
+  )
   assert.deepEqual(PROJECT_LINKS.github, {
     href: 'https://github.com/Zhanghoks/SqurveBridge',
     label: 'GitHub',
@@ -42,8 +47,6 @@ test('keeps the minimal paper-page content', () => {
 test('does not expose submission or conference metadata', () => {
   const publicCopy = JSON.stringify({ SITE, ABSTRACT })
 
-  assert.deepEqual(SITE.authors, ['Anonymous Authors'])
-  assert.equal(SITE.affiliation, null)
   assert.equal(SITE.venue, undefined)
   assert.equal(SITE.footer, 'SqurveBridge · Research Project Website')
   assert.doesNotMatch(publicCopy, forbiddenPublicPattern)
