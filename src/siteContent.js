@@ -3,8 +3,8 @@ export const SITE = {
   browserTitle: 'SqurveBridge · Paper Website',
   title:
     'SqurveBridge: A Harness-Centered Platform for Cross-Domain Text-to-SQL Evaluation and Metric-Guided Loop Engineering',
-  authors: ['Mingjian Zhang', 'Zihan Chen', 'Zhe Li', 'Peiyu Liu'],
-  affiliation: 'University of International Business and Economics',
+  authors: ['Anonymous Authors'],
+  affiliation: null,
   sections: ['Demo Video', 'Abstract'],
   footer: 'SqurveBridge · Research Project Website',
 }

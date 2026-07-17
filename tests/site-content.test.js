@@ -9,6 +9,11 @@ const forbiddenPublicMarkers = [
   'conference',
   'submission',
   ['system', 'demonstrations'].join(' '),
+  'Mingjian Zhang',
+  'Zihan Chen',
+  'Zhe Li',
+  'Peiyu Liu',
+  'University of International Business and Economics',
 ]
 const forbiddenPublicPattern = new RegExp(forbiddenPublicMarkers.join('|'), 'i')
 
@@ -37,6 +42,8 @@ test('keeps the minimal paper-page content', () => {
 test('does not expose submission or conference metadata', () => {
   const publicCopy = JSON.stringify({ SITE, ABSTRACT })
 
+  assert.deepEqual(SITE.authors, ['Anonymous Authors'])
+  assert.equal(SITE.affiliation, null)
   assert.equal(SITE.venue, undefined)
   assert.equal(SITE.footer, 'SqurveBridge · Research Project Website')
   assert.doesNotMatch(publicCopy, forbiddenPublicPattern)

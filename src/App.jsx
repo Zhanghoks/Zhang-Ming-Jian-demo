@@ -35,17 +35,11 @@ export default function App() {
           <div className="hero-meta-panel">
             <div className="paper-meta">
               <p className="authors">
-                {SITE.authors.map((author, index) => (
-                  <span key={author}>
-                    {author}<sup>1</sup>
-                    {index < SITE.authors.length - 1 ? ', ' : ''}
-                  </span>
-                ))}
+                {SITE.authors.join(', ')}
               </p>
-              <p className="affiliation">
-                <sup>1</sup>
-                {SITE.affiliation}
-              </p>
+              {SITE.affiliation ? (
+                <p className="affiliation">{SITE.affiliation}</p>
+              ) : null}
             </div>
             <nav className="project-links" aria-label="Project links">
               <ExternalLink
