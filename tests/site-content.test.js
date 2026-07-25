@@ -38,10 +38,21 @@ test('publishes the approved paper website identity and links', () => {
   assert.equal(PROJECT_LINKS.huggingFace.iconAsset, '/huggingface-logo.svg')
 })
 
-test('keeps the minimal paper-page content', () => {
-  assert.equal(SITE.sections.join(','), 'Demo Video,Abstract')
+test('keeps the approved paper-page content', async () => {
+  assert.deepEqual(SITE.sections, [
+    'Introduction',
+    'System Architecture',
+    'Demo Video',
+    'Abstract',
+  ])
   assert.match(ABSTRACT, /SqurveBridge/)
   assert.match(ABSTRACT, /Text-to-SQL/)
+
+  const appSource = await readFile(new URL('../src/App.jsx', import.meta.url), 'utf8')
+
+  assert.match(appSource, /intro-demo\.mp4/)
+  assert.match(appSource, /squrvebridge-architecture\.png/)
+  assert.match(appSource, /squrvebridge-logo\.png/)
 })
 
 test('does not expose submission or conference metadata', () => {
