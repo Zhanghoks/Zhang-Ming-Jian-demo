@@ -17,8 +17,16 @@ function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
-async function buildSite(extraEnv = {}) {
+async function buildSite({ base } = {}) {
   const outDir = await mkdtemp(path.join(tmpdir(), 'paper-site-build-'))
+  const env = { ...process.env }
+
+  if (base === undefined) {
+    delete env.BASE_PATH
+  } else {
+    env.BASE_PATH = base
+  }
+
   const result = spawnSync(
     process.execPath,
     [
@@ -33,7 +41,7 @@ async function buildSite(extraEnv = {}) {
     {
       cwd: projectRoot,
       encoding: 'utf8',
-      env: { ...process.env, ...extraEnv },
+      env,
     },
   )
 
@@ -86,6 +94,14 @@ function stylesheetUrls(css) {
   )
 }
 
+// Root-absolute URLs the bundle builds at runtime, such as a hand-written
+// "/image.png" that never passes through the asset registry.
+function bundleUrls(javascript) {
+  const rootAbsolute = /["'`](\/[^"'`]*?\.(?:png|jpe?g|svg|gif|webp|avif|ico|mp4|webm|ogg|mp3|wav|pdf|css|js|mjs|woff2?|ttf|otf))["'`]/gi
+
+  return [...javascript.matchAll(rootAbsolute)].map((match) => match[1])
+}
+
 async function assertServedFromBase(outDir, base, url, source) {
   assert.ok(
     url.startsWith(base),
@@ -104,7 +120,7 @@ async function assertServedFromBase(outDir, base, url, source) {
 }
 
 test('serves every asset from the configured base path', async () => {
-  const outDir = await buildSite({ BASE_PATH: reviewBase })
+  const outDir = await buildSite({ base: reviewBase })
   const { html, css, javascript } = await readBuiltSite(outDir)
 
   for (const url of documentUrls(html)) {
@@ -139,11 +155,27 @@ test('serves every asset from the configured base path', async () => {
       javascript.includes(file),
       `the bundle no longer serves "${file}"`,
     )
+
+    // A referenced asset that was never copied into the build 404s on the
+    // deployed page, which is exactly what a missing media file looks like.
+    try {
+      await stat(path.join(outDir, file))
+    } catch {
+      assert.fail(`the bundle references "${file}", but the build output does not contain it`)
+    }
+  }
+
+  for (const url of bundleUrls(javascript)) {
+    await assertServedFromBase(outDir, reviewBase, url, 'the bundle')
   }
 
   assert.ok(
     javascript.includes(reviewBase),
     'the bundle ignores the configured base path',
+  )
+  assert.ok(
+    (javascript.match(/video\/mp4/g) ?? []).length >= 2,
+    'the page must still ship both demo videos',
   )
 
   for (const anchor of ['intro-heading', 'architecture-heading', 'demo-heading', 'abstract-heading']) {
@@ -172,5 +204,20 @@ test('builds for the repository subpath by default', async () => {
       url,
       'a default build',
     )
+  }
+})
+
+test('retargets a domain root with the same build', async () => {
+  const outDir = await buildSite({ base: '/' })
+  const { html, css, javascript } = await readBuiltSite(outDir)
+
+  for (const url of documentUrls(html)) {
+    await assertServedFromBase(outDir, '/', url, 'a root build')
+  }
+  for (const url of stylesheetUrls(css)) {
+    await assertServedFromBase(outDir, '/', url, 'a root build stylesheet')
+  }
+  for (const url of bundleUrls(javascript)) {
+    await assertServedFromBase(outDir, '/', url, 'a root build bundle')
   }
 })

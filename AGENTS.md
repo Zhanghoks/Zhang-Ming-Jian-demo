@@ -39,4 +39,13 @@ is static and requires none.
 Because the page is served from a repository subpath, every public asset is
 resolved against the configured base path. Never hardcode a root-absolute asset
 URL in a component; the build-output test fails when an asset would be requested
-from the domain root.
+from the domain root. Publishing from a domain root instead is a single
+`BASE_PATH` value at build time.
+
+## Deployment And Rollback
+
+Pushing to `main` runs the `Deploy paper site` workflow, which tests and builds
+the page before publishing it; a run that fails its tests publishes nothing. To
+roll back, open the workflow's history, pick the last successful run, and re-run
+its deploy job, which republishes that run's artifact. Never publish a local
+build by hand.
