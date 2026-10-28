@@ -200,7 +200,7 @@ test('builds for the repository subpath by default', async () => {
   for (const url of documentUrls(html)) {
     await assertServedFromBase(
       outDir,
-      '/squrvebridge-live-demo/',
+      '/Zhang-Ming-Jian-demo/',
       url,
       'a default build',
     )

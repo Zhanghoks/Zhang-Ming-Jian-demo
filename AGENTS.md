@@ -3,7 +3,7 @@
 ## Repository Role
 
 This repository is only the paper presentation website deployed at
-`https://zhanghoks.github.io/squrvebridge-live-demo/`. It is published as a
+`https://zhanghoks.github.io/Zhang-Ming-Jian-demo/`. It is published as a
 GitHub Pages project site by the deploy workflow on every push to `main`, so it
 is served from a repository subpath rather than a domain root. It may present
 the paper title, abstract, sanitized video, and links to the public source and
