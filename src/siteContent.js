@@ -18,7 +18,7 @@ export const PROJECT_LINKS = {
   huggingFace: {
     href: 'https://huggingface.co/spaces/zmmjjkk/SqurveBridge',
     label: 'Hugging Face Live Demo',
-    iconAsset: 'huggingFaceLogo',
+    iconAssetName: 'huggingFaceLogo',
   },
 }
 

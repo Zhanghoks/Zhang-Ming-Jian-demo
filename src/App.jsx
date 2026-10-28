@@ -58,7 +58,7 @@ export default function App() {
               <ExternalLink
                 className="live-demo"
                 href={PROJECT_LINKS.huggingFace.href}
-                iconAsset={ASSETS[PROJECT_LINKS.huggingFace.iconAsset]}
+                iconAsset={ASSETS[PROJECT_LINKS.huggingFace.iconAssetName]}
                 label={PROJECT_LINKS.huggingFace.label}
               />
             </nav>

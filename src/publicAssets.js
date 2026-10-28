@@ -1,7 +1,7 @@
 // Every file the page loads from the public directory, named by what it is
 // used for rather than by its filename on disk. Site content refers to these
 // names; only this module knows which base path they are served from.
-const PUBLIC_ASSET_FILES = {
+export const PUBLIC_ASSET_FILES = {
   logo: 'squrvebridge-logo.png',
   architecture: 'squrvebridge-architecture.png',
   huggingFaceLogo: 'huggingface-logo.svg',

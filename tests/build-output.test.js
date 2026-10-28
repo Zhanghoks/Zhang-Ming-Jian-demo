@@ -6,16 +6,12 @@ import path from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
+import { PUBLIC_ASSET_FILES } from '../src/publicAssets.js'
+import { PROJECT_LINKS } from '../src/siteContent.js'
+
 const projectRoot = fileURLToPath(new URL('..', import.meta.url))
 const reviewBase = '/review-base/'
-
-const publicAssetFiles = [
-  'squrvebridge-logo.png',
-  'squrvebridge-architecture.png',
-  'huggingface-logo.svg',
-  'intro-demo.mp4',
-  'demo.mp4',
-]
+const publicAssetFiles = Object.values(PUBLIC_ASSET_FILES)
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -74,18 +70,20 @@ async function readBuiltSite(outDir) {
   return { html, css, javascript }
 }
 
-function documentUrls(html) {
-  const urls = [...html.matchAll(/\b(?:src|href)="([^"]+)"/g)].map((match) => match[1])
+function pageServedUrls(candidates) {
+  return candidates.filter((url) => !/^(?:[a-z][a-z0-9+.-]*:|\/\/|#)/i.test(url))
+}
 
-  return urls.filter(
-    (url) => !/^(?:[a-z][a-z0-9+.-]*:|\/\/|#)/i.test(url),
+function documentUrls(html) {
+  return pageServedUrls(
+    [...html.matchAll(/\b(?:src|href)="([^"]+)"/g)].map((match) => match[1]),
   )
 }
 
 function stylesheetUrls(css) {
-  const urls = [...css.matchAll(/url\(\s*(['"]?)(.*?)\1\s*\)/g)].map((match) => match[2])
-
-  return urls.filter((url) => !/^(?:data:|https?:|\/\/)/i.test(url))
+  return pageServedUrls(
+    [...css.matchAll(/url\(\s*(['"]?)(.*?)\1\s*\)/g)].map((match) => match[2]),
+  )
 }
 
 async function assertServedFromBase(outDir, base, url, source) {
@@ -153,11 +151,11 @@ test('serves every asset from the configured base path', async () => {
   }
 
   assert.ok(
-    javascript.includes('https://github.com/Zhanghoks/SqurveBridge'),
+    javascript.includes(PROJECT_LINKS.github.href),
     'the public source link should not be rewritten by the base path',
   )
   assert.ok(
-    javascript.includes('https://huggingface.co/spaces/zmmjjkk/SqurveBridge'),
+    javascript.includes(PROJECT_LINKS.huggingFace.href),
     'the hosted demo link should not be rewritten by the base path',
   )
   assert.doesNotMatch(javascript, /vercel\.app/, 'the page should not link the retired host')

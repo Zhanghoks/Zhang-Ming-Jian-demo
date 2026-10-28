@@ -36,9 +36,9 @@ test('publishes the approved paper website identity and links', () => {
     'https://huggingface.co/spaces/zmmjjkk/SqurveBridge',
   )
   assert.equal(PROJECT_LINKS.huggingFace.label, 'Hugging Face Live Demo')
-  assert.equal(PROJECT_LINKS.huggingFace.iconAsset, 'huggingFaceLogo')
+  assert.equal(PROJECT_LINKS.huggingFace.iconAssetName, 'huggingFaceLogo')
   assert.ok(
-    PUBLIC_ASSET_NAMES.includes(PROJECT_LINKS.huggingFace.iconAsset),
+    PUBLIC_ASSET_NAMES.includes(PROJECT_LINKS.huggingFace.iconAssetName),
     'the icon asset must name an entry in the public asset map',
   )
 })
