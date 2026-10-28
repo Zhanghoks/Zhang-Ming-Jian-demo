@@ -3,8 +3,11 @@
 ## Repository Role
 
 This repository is only the paper presentation website deployed at
-`https://squrvebridge.vercel.app`. It may present the paper title, abstract,
-sanitized video, and links to the public source and hosted demo.
+`https://zhanghoks.github.io/squrvebridge-live-demo/`. It is published as a
+GitHub Pages project site by the deploy workflow on every push to `main`, so it
+is served from a repository subpath rather than a domain root. It may present
+the paper title, abstract, sanitized video, and links to the public source and
+hosted demo.
 
 The real interactive SqurveBridge demo is deployed as a Hugging Face Space; its
 authoritative source is the separate `SqurveBridge` repository. Keep the
@@ -30,5 +33,10 @@ documents merely because they sit in the working tree.
 Run `npm test`, `npm run build`, and `git diff --check` before publication.
 Confirm that the production page links to the configured public source and
 Hugging Face Space, and that it does not embed the interactive runtime itself.
-Never store runtime secrets in Vercel or this repository because the site is
-static and requires none.
+Never store runtime secrets in this repository or its workflows because the site
+is static and requires none.
+
+Because the page is served from a repository subpath, every public asset is
+resolved against the configured base path. Never hardcode a root-absolute asset
+URL in a component; the build-output test fails when an asset would be requested
+from the domain root.

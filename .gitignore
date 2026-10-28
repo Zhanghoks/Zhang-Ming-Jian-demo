@@ -9,3 +9,7 @@ dist/
 .DS_Store
 .vercel
 .env*
+
+# Internal working notes, never published
+design-qa.md
+docs/superpowers/

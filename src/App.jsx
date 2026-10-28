@@ -1,7 +1,10 @@
 import { SiGithub } from 'react-icons/si'
 import { HiOutlineArrowUpRight } from 'react-icons/hi2'
 
+import { createAssetUrls } from './publicAssets.js'
 import { ABSTRACT, PROJECT_LINKS, SITE } from './siteContent.js'
+
+const ASSETS = createAssetUrls(import.meta.env.BASE_URL)
 
 function ExternalLink({ className = '', href, icon: Icon, iconAsset, label }) {
   return (
@@ -30,7 +33,7 @@ export default function App() {
           <div className="hero-title-panel">
             <img
               className="project-logo"
-              src="/squrvebridge-logo.png"
+              src={ASSETS.logo}
               alt="SqurveBridge"
             />
             <h1>{SITE.title}</h1>
@@ -55,7 +58,7 @@ export default function App() {
               <ExternalLink
                 className="live-demo"
                 href={PROJECT_LINKS.huggingFace.href}
-                iconAsset={PROJECT_LINKS.huggingFace.iconAsset}
+                iconAsset={ASSETS[PROJECT_LINKS.huggingFace.iconAsset]}
                 label={PROJECT_LINKS.huggingFace.label}
               />
             </nav>
@@ -76,7 +79,7 @@ export default function App() {
           </div>
           <div className="video-frame intro-video-frame">
             <video controls preload="metadata" playsInline>
-              <source src="/intro-demo.mp4" type="video/mp4" />
+              <source src={ASSETS.introVideo} type="video/mp4" />
               Your browser does not support HTML5 video.
             </video>
           </div>
@@ -95,7 +98,7 @@ export default function App() {
           <div className="architecture-layout">
             <figure className="architecture-figure">
               <img
-                src="/squrvebridge-architecture.png"
+                src={ASSETS.architecture}
                 alt="SqurveBridge architecture: integration harness, unified evaluation system, recorded evidence, and optional metric-guided loop engineering."
               />
             </figure>
@@ -139,7 +142,7 @@ export default function App() {
           <h2 className="section-kicker" id="demo-heading">Demo Video</h2>
           <div className="video-frame">
             <video controls preload="metadata" playsInline>
-              <source src="/demo.mp4" type="video/mp4" />
+              <source src={ASSETS.demoVideo} type="video/mp4" />
               Your browser does not support HTML5 video.
             </video>
           </div>

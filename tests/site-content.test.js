@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 
+import { PUBLIC_ASSET_NAMES } from '../src/publicAssets.js'
 import { ABSTRACT, PROJECT_LINKS, SITE } from '../src/siteContent.js'
 
 const forbiddenPublicMarkers = [
@@ -35,7 +36,11 @@ test('publishes the approved paper website identity and links', () => {
     'https://huggingface.co/spaces/zmmjjkk/SqurveBridge',
   )
   assert.equal(PROJECT_LINKS.huggingFace.label, 'Hugging Face Live Demo')
-  assert.equal(PROJECT_LINKS.huggingFace.iconAsset, '/huggingface-logo.svg')
+  assert.equal(PROJECT_LINKS.huggingFace.iconAsset, 'huggingFaceLogo')
+  assert.ok(
+    PUBLIC_ASSET_NAMES.includes(PROJECT_LINKS.huggingFace.iconAsset),
+    'the icon asset must name an entry in the public asset map',
+  )
 })
 
 test('keeps the approved paper-page content', async () => {
@@ -47,12 +52,6 @@ test('keeps the approved paper-page content', async () => {
   ])
   assert.match(ABSTRACT, /SqurveBridge/)
   assert.match(ABSTRACT, /Text-to-SQL/)
-
-  const appSource = await readFile(new URL('../src/App.jsx', import.meta.url), 'utf8')
-
-  assert.match(appSource, /intro-demo\.mp4/)
-  assert.match(appSource, /squrvebridge-architecture\.png/)
-  assert.match(appSource, /squrvebridge-logo\.png/)
 })
 
 test('does not expose submission or conference metadata', () => {
